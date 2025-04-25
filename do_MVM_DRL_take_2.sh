@@ -1,0 +1,123 @@
+#!/bin/bash
+
+cd ~/Desktop/Checkerboard_BIDS
+
+#set some variables
+mask_prefix=mean_full_epi_mask
+parDir=~/Desktop/Checkerboard_BIDS
+MVM_prefix=MVM_Task_x_Group
+
+# Check to see if an appropriate mask exists. If not, make one by
+    # combining the individual masks generated in each  subject's preprocessing
+if [ ! -f ${mask_prefix}+tlrc.HEAD ]; then
+  masknames=(sub*.results/full_mask.sub*+tlrc.HEAD)
+  3dmask_tool -input $masknames -prefix mean_full_epi_mask -frac .8
+fi
+
+3dMVM -prefix $MVM_prefix \
+        -jobs 4 \
+        -mask ${mask_prefix}+tlrc \
+        -bsVars "Group+Sex+Age" \
+        -wsVars "Task" \
+        -qVars "Age" \
+        -num_glt 5 \
+        -gltLabel 1 old_check-music -gltCode 1 'Group : 1*old Task : 1*check -1*music' \
+        -gltLabel 2 new_check-music -gltCode 2 'Group : 1*new Task : 1*check -1*music' \
+        -gltLabel 3 all_check-music -gltCode 3 'Task : 1*check -1*music' \
+        -gltLabel 4 sex_F_vs_M -gltCode 4 'Sex : 1*F -1*M' \
+        -gltLabel 5 age_impact -gltCode 5 'Age : 1' \
+        -dataTable \
+Subj    Group    Sex    Age    Task    InputFile    \
+sub-01    old    M    23    check    ${parDir}/sub-01.results/stats.sub-01_REML+tlrc'[1]'    \
+sub-01    old    M    23    music    ${parDir}/sub-01.results/stats.sub-01_REML+tlrc'[4]'    \
+sub-02    old    M    53    check    ${parDir}/sub-02.results/stats.sub-02_REML+tlrc'[1]'    \
+sub-02    old    M    53    music    ${parDir}/sub-02.results/stats.sub-02_REML+tlrc'[4]'    \
+sub-03    old    M    24    check    ${parDir}/sub-03.results/stats.sub-03_REML+tlrc'[1]'    \
+sub-03    old    M    24    music    ${parDir}/sub-03.results/stats.sub-03_REML+tlrc'[4]'    \
+sub-04    old    F    22    check    ${parDir}/sub-04.results/stats.sub-04_REML+tlrc'[1]'    \
+sub-04    old    F    22    music    ${parDir}/sub-04.results/stats.sub-04_REML+tlrc'[4]'    \
+sub-05    old    F    22    check    ${parDir}/sub-05.results/stats.sub-05_REML+tlrc'[1]'    \
+sub-05    old    F    22    music    ${parDir}/sub-05.results/stats.sub-05_REML+tlrc'[4]'    \
+sub-06    old    F    45    check    ${parDir}/sub-06.results/stats.sub-06_REML+tlrc'[1]'    \
+sub-06    old    F    45    music    ${parDir}/sub-06.results/stats.sub-06_REML+tlrc'[4]'    \
+sub-07    old    M    24    check    ${parDir}/sub-07.results/stats.sub-07_REML+tlrc'[1]'    \
+sub-07    old    M    24    music    ${parDir}/sub-07.results/stats.sub-07_REML+tlrc'[4]'    \
+sub-08    old    F    25    check    ${parDir}/sub-08.results/stats.sub-08_REML+tlrc'[1]'    \
+sub-08    old    F    25    music    ${parDir}/sub-08.results/stats.sub-08_REML+tlrc'[4]'    \
+sub-09    old    M    21    check    ${parDir}/sub-09.results/stats.sub-09_REML+tlrc'[1]'    \
+sub-09    old    M    21    music    ${parDir}/sub-09.results/stats.sub-09_REML+tlrc'[4]'    \
+sub-10    old    F    23    check    ${parDir}/sub-10.results/stats.sub-10_REML+tlrc'[1]'    \
+sub-10    old    F    23    music    ${parDir}/sub-10.results/stats.sub-10_REML+tlrc'[4]'    \
+sub-11    old    M    24    check    ${parDir}/sub-11.results/stats.sub-11_REML+tlrc'[1]'    \
+sub-11    old    M    24    music    ${parDir}/sub-11.results/stats.sub-11_REML+tlrc'[4]'    \
+sub-12    old    F    23    check    ${parDir}/sub-12.results/stats.sub-12_REML+tlrc'[1]'    \
+sub-12    old    F    23    music    ${parDir}/sub-12.results/stats.sub-12_REML+tlrc'[4]'    \
+sub-13    old    M    24    check    ${parDir}/sub-13.results/stats.sub-13_REML+tlrc'[1]'    \
+sub-13    old    M    24    music    ${parDir}/sub-13.results/stats.sub-13_REML+tlrc'[4]'    \
+sub-14    old    M    42    check    ${parDir}/sub-14.results/stats.sub-14_REML+tlrc'[1]'    \
+sub-14    old    M    42    music    ${parDir}/sub-14.results/stats.sub-14_REML+tlrc'[4]'    \
+sub-15    old    M    23    check    ${parDir}/sub-15.results/stats.sub-15_REML+tlrc'[1]'    \
+sub-15    old    M    23    music    ${parDir}/sub-15.results/stats.sub-15_REML+tlrc'[4]'    \
+sub-16    old    F    23    check    ${parDir}/sub-16.results/stats.sub-16_REML+tlrc'[1]'    \
+sub-16    old    F    23    music    ${parDir}/sub-16.results/stats.sub-16_REML+tlrc'[4]'    \
+sub-17    old    M    25    check    ${parDir}/sub-17.results/stats.sub-17_REML+tlrc'[1]'    \
+sub-17    old    M    25    music    ${parDir}/sub-17.results/stats.sub-17_REML+tlrc'[4]'    \
+sub-18    old    M    41    check    ${parDir}/sub-18.results/stats.sub-18_REML+tlrc'[1]'    \
+sub-18    old    M    41    music    ${parDir}/sub-18.results/stats.sub-18_REML+tlrc'[4]'    \
+sub-19    old    F    23    check    ${parDir}/sub-19.results/stats.sub-19_REML+tlrc'[1]'    \
+sub-19    old    F    23    music    ${parDir}/sub-19.results/stats.sub-19_REML+tlrc'[4]'    \
+sub-20    old    F    20    check    ${parDir}/sub-20.results/stats.sub-20_REML+tlrc'[1]'    \
+sub-20    old    F    20    music    ${parDir}/sub-20.results/stats.sub-20_REML+tlrc'[4]'    \
+sub-21    old    F    20    check    ${parDir}/sub-21.results/stats.sub-21_REML+tlrc'[1]'    \
+sub-21    old    F    20    music    ${parDir}/sub-21.results/stats.sub-21_REML+tlrc'[4]'    \
+sub-22    old    M    23    check    ${parDir}/sub-22.results/stats.sub-22_REML+tlrc'[1]'    \
+sub-22    old    M    23    music    ${parDir}/sub-22.results/stats.sub-22_REML+tlrc'[4]'    \
+sub-23    old    F    22    check    ${parDir}/sub-23.results/stats.sub-23_REML+tlrc'[1]'    \
+sub-23    old    F    22    music    ${parDir}/sub-23.results/stats.sub-23_REML+tlrc'[4]'    \
+sub-24    old    F    42    check    ${parDir}/sub-24.results/stats.sub-24_REML+tlrc'[1]'    \
+sub-24    old    F    42    music    ${parDir}/sub-24.results/stats.sub-24_REML+tlrc'[4]'    \
+sub-25    old    M    30    check    ${parDir}/sub-25.results/stats.sub-25_REML+tlrc'[1]'    \
+sub-25    old    M    30    music    ${parDir}/sub-25.results/stats.sub-25_REML+tlrc'[4]'    \
+sub-26    old    F    21    check    ${parDir}/sub-26.results/stats.sub-26_REML+tlrc'[1]'    \
+sub-26    old    F    21    music    ${parDir}/sub-26.results/stats.sub-26_REML+tlrc'[4]'    \
+sub-27    old    F    20    check    ${parDir}/sub-27.results/stats.sub-27_REML+tlrc'[1]'    \
+sub-27    old    F    20    music    ${parDir}/sub-27.results/stats.sub-27_REML+tlrc'[4]'    \
+sub-28    old    M    50    check    ${parDir}/sub-28.results/stats.sub-28_REML+tlrc'[1]'    \
+sub-28    old    M    50    music    ${parDir}/sub-28.results/stats.sub-28_REML+tlrc'[4]'    \
+sub-29    old    M    46    check    ${parDir}/sub-29.results/stats.sub-29_REML+tlrc'[1]'    \
+sub-29    old    M    46    music    ${parDir}/sub-29.results/stats.sub-29_REML+tlrc'[4]'    \
+sub-30    old    F    24    check    ${parDir}/sub-30.results/stats.sub-30_REML+tlrc'[1]'    \
+sub-30    old    F    24    music    ${parDir}/sub-30.results/stats.sub-30_REML+tlrc'[4]'    \
+sub-31    old    M    28    check    ${parDir}/sub-31.results/stats.sub-31_REML+tlrc'[1]'    \
+sub-31    old    M    28    music    ${parDir}/sub-31.results/stats.sub-31_REML+tlrc'[4]'    \
+sub-32    old    M    24    check    ${parDir}/sub-32.results/stats.sub-32_REML+tlrc'[1]'    \
+sub-32    old    M    24    music    ${parDir}/sub-32.results/stats.sub-32_REML+tlrc'[4]'    \
+sub-33    old    F    23    check    ${parDir}/sub-33.results/stats.sub-33_REML+tlrc'[1]'    \
+sub-33    old    F    23    music    ${parDir}/sub-33.results/stats.sub-33_REML+tlrc'[4]'    \
+sub-34    old    M    28    check    ${parDir}/sub-34.results/stats.sub-34_REML+tlrc'[1]'    \
+sub-34    old    M    28    music    ${parDir}/sub-34.results/stats.sub-34_REML+tlrc'[4]'    \
+sub-35    new    F    22    check    ${parDir}/sub-35.results/stats.sub-35_REML+tlrc'[1]'    \
+sub-35    new    F    22    music    ${parDir}/sub-35.results/stats.sub-35_REML+tlrc'[4]'    \
+sub-36    new    F    23    check    ${parDir}/sub-36.results/stats.sub-36_REML+tlrc'[1]'    \
+sub-36    new    F    23    music    ${parDir}/sub-36.results/stats.sub-36_REML+tlrc'[4]'    \
+sub-37    new    F    21    check    ${parDir}/sub-37.results/stats.sub-37_REML+tlrc'[1]'    \
+sub-37    new    F    21    music    ${parDir}/sub-37.results/stats.sub-37_REML+tlrc'[4]'    \
+sub-38    new    M    22    check    ${parDir}/sub-38.results/stats.sub-38_REML+tlrc'[1]'    \
+sub-38    new    M    22    music    ${parDir}/sub-38.results/stats.sub-38_REML+tlrc'[4]'    \
+sub-39    new    F    22    check    ${parDir}/sub-39.results/stats.sub-39_REML+tlrc'[1]'    \
+sub-39    new    F    22    music    ${parDir}/sub-39.results/stats.sub-39_REML+tlrc'[4]'    \
+sub-40    new    F    22    check    ${parDir}/sub-40.results/stats.sub-40_REML+tlrc'[1]'    \
+sub-40    new    F    22    music    ${parDir}/sub-40.results/stats.sub-40_REML+tlrc'[4]'    \
+sub-41    new    F    23    check    ${parDir}/sub-41.results/stats.sub-41_REML+tlrc'[1]'    \
+sub-41    new    F    23    music    ${parDir}/sub-41.results/stats.sub-41_REML+tlrc'[4]'    \
+sub-42    new    F    22    check    ${parDir}/sub-42.results/stats.sub-42_REML+tlrc'[1]'    \
+sub-42    new    F    22    music    ${parDir}/sub-42.results/stats.sub-42_REML+tlrc'[4]'    \
+sub-43    new    F    23    check    ${parDir}/sub-43.results/stats.sub-43_REML+tlrc'[1]'    \
+sub-43    new    F    23    music    ${parDir}/sub-43.results/stats.sub-43_REML+tlrc'[4]'    \
+sub-44    new    F    22    check    ${parDir}/sub-44.results/stats.sub-44_REML+tlrc'[1]'    \
+sub-44    new    F    22    music    ${parDir}/sub-44.results/stats.sub-44_REML+tlrc'[4]'    \
+sub-45    new    M    22    check    ${parDir}/sub-45.results/stats.sub-45_REML+tlrc'[1]'    \
+sub-45    new    M    22    music    ${parDir}/sub-45.results/stats.sub-45_REML+tlrc'[4]'    \
+sub-46    new    M    24    check    ${parDir}/sub-46.results/stats.sub-46_REML+tlrc'[1]'    \
+sub-46    new    M    24    music    ${parDir}/sub-46.results/stats.sub-46_REML+tlrc'[4]'
+
