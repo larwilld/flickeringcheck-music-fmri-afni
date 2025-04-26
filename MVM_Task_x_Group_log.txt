@@ -1,0 +1,21 @@
+MVM_Task_x_Group
+Wed Apr 23 18:20:58 2025
+
+Dimensions: 
+rows: 92 | columns: 6
+
+Data summary: 
+Variable  Detected_Type Details                           
+Subj      Subjects      Num Subjects=46                   
+Group     Categorical   Counts: new=24 | old=68           
+Sex       Categorical   Counts: F=50 | M=42               
+Age       Quantitative  Min=20 | Max=53 | Num outliers=16 
+Task      Categorical   Counts: check=46 | music=46       
+InputFile Data          Number of InputFiles=92           
+
+++ Good: All InputFiles exist.
+
+++ Good: All InputFiles have exactly 1 volume.
+
+++ Good: All InputFiles are on the same grid.
+
